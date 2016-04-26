@@ -18,7 +18,7 @@ namespace SignableSendTwoSigAPIDemo
             Console.WriteLine("Start");
 
             Console.WriteLine("Enter your API Key from  https://app.signable.co.uk/api");
-            string apiKey =  Console.ReadLine();
+            string apiKey = Console.ReadLine();
 
             var webClient = CreateWebClient(apiKey);
 
@@ -29,12 +29,12 @@ namespace SignableSendTwoSigAPIDemo
             Console.WriteLine("Enter surname of the person who is getting this email");
             string surName = Console.ReadLine();
             Console.WriteLine("Enter email of the person who is getting this email");
-            string email =  Console.ReadLine();
+            string email = Console.ReadLine();
 
             var envelopesParties = new EnvelopeParties();
             envelopesParties.party_name = firstName + " " + surName;
             envelopesParties.party_email = email;
-            envelopesParties.party_id = "1450215"; //template_parties, party_id
+            envelopesParties.party_id = "1454030"; //template_parties, party_id
             envelopesParties.party_message = "Please sign this!";
 
             Console.WriteLine("Enter item for the report");
@@ -43,12 +43,12 @@ namespace SignableSendTwoSigAPIDemo
             string reportTotal = Console.ReadLine();
 
             var documentMergeFields = new List<MergeFields>();
-            documentMergeFields.Add(new MergeFields() { field_id = "3560892", field_value = reportItem });
-            documentMergeFields.Add(new MergeFields() { field_id = "3560893", field_value = reportTotal });
+            documentMergeFields.Add(new MergeFields() { field_id = "3572840", field_value = reportItem });
+            documentMergeFields.Add(new MergeFields() { field_id = "3572841", field_value = reportTotal });
 
             var envelopeDoucments = new EnvelopeDocuments();
             envelopeDoucments.document_title = "Signature request (no password)";
-            envelopeDoucments.document_template_fingerprint = "21be0c076d75702a85ffb7ab9e4b8f0e";
+            envelopeDoucments.document_template_fingerprint = "8cf5eeda20ab327400b92461cd305315";
             envelopeDoucments.document_merge_fields = documentMergeFields;
 
 
