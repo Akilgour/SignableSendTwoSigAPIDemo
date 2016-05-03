@@ -18,7 +18,7 @@ namespace SignableSendTwoSigAPIDemo
             Console.WriteLine("Start");
 
             Console.WriteLine("Enter your API Key from  https://app.signable.co.uk/api");
-            string apiKey = Console.ReadLine();
+            string apiKey =  Console.ReadLine();
 
             var webClient = CreateWebClient(apiKey);
 
@@ -36,6 +36,21 @@ namespace SignableSendTwoSigAPIDemo
             envelopesParties.party_email = email;
             envelopesParties.party_id = "1454030"; //template_parties, party_id
             envelopesParties.party_message = "Please sign this!";
+
+            Console.WriteLine("Enter first name of the second person who is getting this email");
+            string secondFirstName = Console.ReadLine();
+            Console.WriteLine("Enter surname of the second person who is getting this email");
+            string secondSurName = Console.ReadLine();
+            Console.WriteLine("Enter email of the second person who is getting this email");
+            string secondEmail = "kilgourkilgour@hotmail.com";// Console.ReadLine();
+
+            var secondEnvelopesParties = new EnvelopeParties();
+            secondEnvelopesParties.party_name = secondFirstName + " " + secondSurName;
+            secondEnvelopesParties.party_email = secondEmail;
+            secondEnvelopesParties.party_id = "1454031"; //template_parties, party_id
+            secondEnvelopesParties.party_message = "Please counter sign this!";
+
+
 
             Console.WriteLine("Enter item for the report");
             string reportItem = Console.ReadLine();
@@ -56,6 +71,8 @@ namespace SignableSendTwoSigAPIDemo
 
             var envelopePartiesList = new List<EnvelopeParties>();
             envelopePartiesList.Add(envelopesParties);
+            envelopePartiesList.Add(secondEnvelopesParties);
+
             var envelopePartiesJSONString = javaScriptSerializer.Serialize(envelopePartiesList);
 
             var envelopeDocumentsList = new List<EnvelopeDocuments>();
@@ -114,6 +131,9 @@ namespace SignableSendTwoSigAPIDemo
 
             IRestResponse response = client.Execute(request);
 
+            var javaScriptSerializer = new JavaScriptSerializer();
+            var sendResponce = javaScriptSerializer.Deserialize<SendResponce>(response.Content);
+
             Console.WriteLine(response.Content);
             Console.WriteLine("Press any key to continue...");
             Console.ReadLine();
@@ -140,4 +160,18 @@ namespace SignableSendTwoSigAPIDemo
         public string document_title { get; set; }
         public List<MergeFields> document_merge_fields { get; set; }
     }
+
+
+    public class SendResponce
+    {
+        public int http { get; set; }
+        public string message { get; set; }
+        public string href { get; set; }
+        public string envelope_title { get; set; }
+        public string envelope_fingerprint { get; set; }
+        public bool envelope_password_protect { get; set; }
+        public string envelope_redirect_url { get; set; }
+        public DateTime envelope_queued { get; set; }
+    }
+
 }
